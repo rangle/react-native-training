@@ -4,9 +4,14 @@ import React, {
   View,
   TabBarIOS,
   PropTypes,
+  TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import defaultStyles from '../styles';
+
+import Button from '../components/ui/Button';
 
 import * as navigatorActions from '../reducers/navigator';
 
@@ -22,11 +27,11 @@ function mapDispatchToProps(dispatch) {
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const App = ({ selectedTab, gotoTab }) => {
+const App = ({ selectedTab, gotoTab, navigator }) => {
   return (
     <TabBarIOS
-      tintColor="white"
-      barTintColor="#323232">
+      tintColor={ defaultStyles.white }
+      barTintColor={ defaultStyles.black }>
       <Icon.TabBarItem
         title="Topics"
         iconName="ios-chatboxes-outline"
@@ -57,6 +62,18 @@ const App = ({ selectedTab, gotoTab }) => {
           <Text>Create Tab</Text>
         </View>
       </Icon.TabBarItem>
+      <Icon.TabBarItem
+        title="Settings"
+        iconName="ios-gear-outline"
+        selectedIconName="ios-gear"
+        selected={ selectedTab === 'settings' }
+        onPress={() => gotoTab('settings')}>
+        <View style={ styles.tabContent }>
+          <Text>Settings Tab</Text>
+
+          <Button type="warning" onPress={ () => navigator.pop() }>Logout</Button>
+        </View>
+      </Icon.TabBarItem>
     </TabBarIOS>
   );
 };
@@ -66,7 +83,7 @@ App.propTypes = {
   /**
    * The currently selected tab ID
    */
-  selectedTab: PropTypes.oneOf(['create', 'topics', 'matches']).isRequired,
+  selectedTab: PropTypes.oneOf(['create', 'topics', 'matches', 'settings']).isRequired,
   /**
    * The function to perform when a tab bar item is clicked
    */
@@ -81,6 +98,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 100,
+  },
+  button: {
+    padding: 10,
+    margin: 5,
+    backgroundColor: 'lightblue',
+    borderRadius: 3,
   },
 });
 
