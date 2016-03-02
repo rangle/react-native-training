@@ -1,6 +1,8 @@
 import React, { AppRegistry } from 'react-native';
 
-import App from './ios/src/containers/App';
+import App from './src/containers/App';
+
+
 
 AppRegistry.registerComponent(
   'DevMatch',
