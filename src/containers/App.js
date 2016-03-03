@@ -14,6 +14,7 @@ import defaultStyles from '../styles';
 import Button from '../components/ui/Button';
 
 import * as navigatorActions from '../reducers/navigator';
+import * as sessionActions from '../reducers/session';
 
 function mapStateToProps(state) {
   return {
@@ -22,12 +23,14 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(navigatorActions, dispatch);
+  return bindActionCreators({ ...navigatorActions, ...sessionActions }, dispatch);
 }
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const App = ({ selectedTab, gotoTab, navigator }) => {
+const App = (props) => {
+  const { selectedTab, gotoTab, navigator, logout } = props;
+
   return (
     <TabBarIOS
       tintColor={ defaultStyles.white }
@@ -71,7 +74,11 @@ const App = ({ selectedTab, gotoTab, navigator }) => {
         <View style={ styles.tabContent }>
           <Text>Settings Tab</Text>
 
-          <Button type="warning" onPress={ () => navigator.pop() }>Logout</Button>
+          <Button
+            type="warning"
+            onPress={ logout }>
+            Logout
+          </Button>
         </View>
       </Icon.TabBarItem>
     </TabBarIOS>

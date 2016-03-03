@@ -6,37 +6,15 @@ import React, {
 
 import defaultStyles from '../../styles';
 
-const Input = ({ children, onChange, value, placeholder }) => {
+const Input = (props) => {
   return (
-    <TextInput
-      style={ styles.input }
-      onChangeText={ onChange }
-      placeholder={ placeholder }
-      value={ value }
-    />
+    <TextInput style={ styles.input } { ...props } />
   );
 }
 
 Input.defaultName = 'Input';
-Input.propTypes = {
-  /**
-   * When the text changes, fire this function
-   */
-  onChange: PropTypes.func,
-  /**
-   * The value of the input
-   */
-  value: PropTypes.string,
-  /**
-   * The value of the placeholder
-   */
-  placeholder: PropTypes.string,
-};
-Input.defaultProps = {
-  onChange: () => {},
-  value: '',
-  placeholder: '',
-};
+Input.propTypes = {};
+Input.defaultProps = {};
 
 const styles = StyleSheet.create({
   input: {

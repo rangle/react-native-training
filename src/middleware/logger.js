@@ -7,7 +7,13 @@ const logger = createLogger({
     return immutableToJS(state);
   },
   predicate: (getState, { type }) => {
-    const blacklist = [];
+    const blacklist = [
+      'redux-form/BLUR',
+      'redux-form/CHANGE',
+      'redux-form/FOCUS',
+      'redux-form/TOUCH',
+      'redux-form/DESTROY',
+    ];
 
     return blacklist.every(i => type !== i);
   },

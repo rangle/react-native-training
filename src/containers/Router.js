@@ -1,50 +1,85 @@
 import React, {
-  PropTypes,
   Navigator,
   Component,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import App from './App';
-import LoginForm from '../components/login/LoginForm';
-import Scene from '../components/ui/Scene';
+import Portal from './Portal';
+import LoadingOverlay from '../components/ui/LoadingOverlay';
+
+function mapStateToProps(state) {
+  return {
+    initialized: state.navigator.get('initialized'),
+    authenticated: state.session.get('sessionToken') !== null,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
 
 class Router extends Component {
   _renderScene(route, nav) {
     switch(route.id) {
       case 'loggedIn':
-        return (
-          <App navigator={ nav } />
-        );
+        return <App />
 
       case 'loggedOut':
-        return (
-          <Scene>
-            <LoginForm onSubmit={ () => nav.push({ id: 'loggedIn' }) } />
-          </Scene>
-        );
+        return <Portal />;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const prevProps = this.props;
+
+    // When a users authentication changes, we need to push or
+    // pop the new scene into place. We also need to ignore the initial
+    // value, so we watch for a change to the initialized property.
+    if (nextProps.authenticated !== prevProps.authenticated && prevProps.initialized === true) {
+      const navigator = this.refs.sceneNavigator;
+
+      if (nextProps.authenticated === true) {
+        navigator.push({ id: 'loggedIn' }); // Push to App
+      } else {
+        navigator.pop(); // Pop to Login
+      }
     }
   }
 
   render() {
-    return (
-      <Navigator
-        sceneStyle={{ backgroundColor: 'white' }}
-        initialRouteStack={[
-          { id: 'loggedOut' },
-          // { id: 'loggedIn' },
-        ]}
-        renderScene={ this._renderScene }
-        configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
-          }
+    const { authenticated, initialized } = this.props;
 
-          return Navigator.SceneConfigs.FloatFromRight;
-        }}
-      />
-    );
+    if (initialized) {
+      return (
+        <Navigator
+          ref="sceneNavigator"
+          sceneStyle={{ backgroundColor: 'white' }}
+          initialRouteStack={
+            authenticated ?
+              [{ id: 'loggedOut' }, { id: 'loggedIn' }] :
+              [{ id: 'loggedOut' }]
+          }
+          renderScene={ this._renderScene.bind(this) }
+          configureScene={(route) => {
+            if (route.sceneConfig) {
+              return route.sceneConfig;
+            }
+
+            return Navigator.SceneConfigs.FloatFromRight;
+          }}
+        />
+      );
+    } else {
+      return (
+        <LoadingOverlay isVisible={ true } />
+      );
+    }
   }
 }
 
-export default Router;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Router);
