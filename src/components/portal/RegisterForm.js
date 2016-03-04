@@ -3,6 +3,7 @@ import { reduxForm } from 'redux-form';
 
 import Button from '../ui/Button';
 import Input from '../ui/Input';
+import Alert from '../ui/Alert';
 import Label from '../ui/Label';
 import FormGroup from '../ui/FormGroup';
 
@@ -51,6 +52,16 @@ const RegisterForm = (props) => {
           autoCapitalize="none"
           { ...displayName } />
       </FormGroup>
+
+      {(() => {
+        if (hasError) {
+          return (
+            <Alert type="warning">
+              Username is already in use.
+            </Alert>
+          );
+        }
+      })()}
 
       <Button
         style={{

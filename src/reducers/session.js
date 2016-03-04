@@ -28,10 +28,12 @@ function sessionReducer(state = INITIAL_STATE, action = {}) {
     case USER_SESSION_SYNC:
       return state.merge(action.payload);
 
+    case REGISTER_PENDING:
     case LOGIN_PENDING:
       return state.set('pending', true)
                   .set('hasError', false);
 
+    case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       return state.merge(fromJS({
         pending: false,
@@ -39,6 +41,7 @@ function sessionReducer(state = INITIAL_STATE, action = {}) {
         ...action.payload,
       }));
 
+    case REGISTER_ERROR:
     case LOGIN_ERROR:
       return state.merge(fromJS({
         pending: false,
@@ -48,35 +51,7 @@ function sessionReducer(state = INITIAL_STATE, action = {}) {
       }));
 
     case LOGOUT:
-      return state.merge(fromJS({
-        pending: false,
-        hasError: false,
-        code: null,
-        message: false,
-        authenticated: false,
-        username: null,
-        id: null,
-        displayName: null,
-      }));
-
-    case REGISTER_PENDING:
-      return state.set('pending', true)
-                  .set('hasError', false);
-
-    case REGISTER_SUCCESS:
-      return state.merge(fromJS({
-        pending: false,
-        authenticated: true,
-        ...action.payload,
-      }));
-
-    case REGISTER_ERROR:
-      return state.merge(fromJS({
-        pending: false,
-        hasError: true,
-        authenticated: false,
-        ...action.payload,
-      }));
+      return INITIAL_STATE;
 
     default:
       return state;

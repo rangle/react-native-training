@@ -5,6 +5,7 @@ import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Label from '../ui/Label';
 import FormGroup from '../ui/FormGroup';
+import Alert from '../ui/Alert';
 
 const LoginForm = (props) => {
   const {
@@ -33,19 +34,15 @@ const LoginForm = (props) => {
           { ...password } />
       </FormGroup>
 
-      {
-        (() => {
-          if (hasError) {
-            return (
-              <FormGroup>
-                <Text style={{ textAlign: 'center', color: 'red' }}>
-                  Invalid username or password.
-                </Text>
-              </FormGroup>
-            );
-          }
-        })()
-      }
+      {(() => {
+        if (hasError) {
+          return (
+            <Alert type="warning">
+              Invalid username or password.
+            </Alert>
+          );
+        }
+      })()}
 
       <Button
         style={{

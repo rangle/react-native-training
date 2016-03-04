@@ -14,7 +14,6 @@ import defaultStyles from '../styles';
 import Button from '../components/ui/Button';
 
 import * as navigatorActions from '../reducers/navigator';
-import * as sessionActions from '../reducers/session';
 
 function mapStateToProps(state) {
   return {
@@ -23,13 +22,17 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...navigatorActions, ...sessionActions }, dispatch);
+  return bindActionCreators(navigatorActions, dispatch);
 }
 
+import Create from './Create';
+import Topics from './Topics';
+import Matches from './Matches';
+import Settings from './Settings';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const App = (props) => {
-  const { selectedTab, gotoTab, navigator, logout } = props;
+  const { selectedTab, gotoTab, navigator } = props;
 
   return (
     <TabBarIOS
@@ -41,9 +44,7 @@ const App = (props) => {
         selectedIconName="ios-chatboxes"
         selected={ selectedTab === 'topics' }
         onPress={() => gotoTab('topics')}>
-        <View style={ styles.tabContent }>
-          <Text>Topics Tab</Text>
-        </View>
+        <Topics />
       </Icon.TabBarItem>
       <Icon.TabBarItem
         title="Matches"
@@ -51,9 +52,7 @@ const App = (props) => {
         selectedIconName="ios-flame"
         selected={ selectedTab === 'matches' }
         onPress={() => gotoTab('matches')}>
-        <View style={ styles.tabContent }>
-          <Text>Matches Tab</Text>
-        </View>
+        <Matches />
       </Icon.TabBarItem>
       <Icon.TabBarItem
         title="Create"
@@ -61,9 +60,7 @@ const App = (props) => {
         selectedIconName="ios-compose"
         selected={ selectedTab === 'create' }
         onPress={() => gotoTab('create')}>
-        <View style={ styles.tabContent }>
-          <Text>Create Tab</Text>
-        </View>
+        <Create />
       </Icon.TabBarItem>
       <Icon.TabBarItem
         title="Settings"
@@ -71,15 +68,7 @@ const App = (props) => {
         selectedIconName="ios-gear"
         selected={ selectedTab === 'settings' }
         onPress={() => gotoTab('settings')}>
-        <View style={ styles.tabContent }>
-          <Text>Settings Tab</Text>
-
-          <Button
-            type="warning"
-            onPress={ logout }>
-            Logout
-          </Button>
-        </View>
+        <Settings />
       </Icon.TabBarItem>
     </TabBarIOS>
   );

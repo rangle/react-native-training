@@ -38,7 +38,7 @@ const CreateTopicForm = (props) => {
       {(() => {
         if (hasError) {
           return (
-            <Alert type="error">
+            <Alert type="warning">
               Invalid title or description.
             </Alert>
           );
