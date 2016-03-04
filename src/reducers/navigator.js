@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { LOCALSTORAGE_SYNC } from '../middleware/storage';
+import { USER_SESSION_SYNC } from './session';
 
 export const GOTO_TAB = '@@devMatchNative/GOTO_TAB';
 export const SWITCH_PORTAL = '@@devMatchNative/SWITCH_PORTAL';
@@ -12,7 +12,7 @@ const initialState = fromJS({
 
 function navigatorReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case LOCALSTORAGE_SYNC:
+    case USER_SESSION_SYNC:
       return state.set('initialized', true);
 
     case GOTO_TAB:

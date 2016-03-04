@@ -8,6 +8,7 @@
   "dependencies": {
     "immutable": "^3.7.6",
     "invariant": "^2.2.0",
+    "parse": "^1.7.1",
     "react-native": "^0.21.0",
     "react-native-blur": "^0.7.10",
     "react-native-overlay": "^0.4.1",

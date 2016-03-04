@@ -1,17 +1,43 @@
-import { get, post } from './fetchr';
+import Parse from 'parse/react-native';
 
-function encode(str) {
-  return encodeURIComponent(str).replace(/%20/g, '+');
-}
+export function create(username, password, email, displayName) {
+  const user = new Parse.User();
 
-export function register(username, password, email, displayName) {
-  return (config) => post(`/users`, { username, password, email, displayName });
-}
+  user.set('username', username);
+  user.set('password', password);
+  user.set('email', email);
+  user.set('displayName', displayName);
 
-export function logout(token) {
-  return (config) => post(`/logout`, {}, config);
+  return new Promise((resolve, reject) => {
+    user.signUp(null, {
+      success: response => resolve({
+        id: response.id,
+        username: response.get('username'),
+        displayName: response.get('displayName'),
+      }),
+      error: (response, err) => reject(err),
+    });
+  });
 }
 
 export function login(username, password) {
-  return (config) => get(`/login?username=${ username }&password=${ password }`, config);
+  return new Promise((resolve, reject) => {
+    Parse.User.logIn(username, password, {
+      success: response => resolve({
+        id: response.id,
+        username: response.get('username'),
+        displayName: response.get('displayName'),
+      }),
+      error: (response, err) => reject(err),
+    });
+  });
+}
+
+export function logout() {
+  return new Promise((resolve, reject) => {
+    Parse.User.logOut({
+      success: response => resolve(response),
+      error: (response, err) => reject(err),
+    });
+  });
 }

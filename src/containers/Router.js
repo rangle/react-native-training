@@ -12,7 +12,7 @@ import LoadingOverlay from '../components/ui/LoadingOverlay';
 function mapStateToProps(state) {
   return {
     initialized: state.navigator.get('initialized'),
-    authenticated: state.session.get('sessionToken') !== null,
+    authenticated: state.session.get('authenticated'),
   };
 }
 

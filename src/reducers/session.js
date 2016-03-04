@@ -1,113 +1,124 @@
 import { fromJS } from 'immutable';
-import { LOCALSTORAGE_SYNC } from '../middleware/storage';
-import { REQUEST } from '../middleware/request';
+import Parse from 'parse/react-native';
 
 import * as users from '../api/users';
 
-export const LOGIN_PENDING = '@@devMatchNative/LOGIN_PENDING';
-export const LOGIN_SUCCESS = '@@devMatchNative/LOGIN_SUCCESS';
-export const LOGIN_ERROR = '@@devMatchNative/LOGIN_ERROR';
-export const LOGOUT_PENDING = '@@devMatchNative/LOGOUT_PENDING';
-export const LOGOUT_SUCCESS = '@@devMatchNative/LOGOUT_SUCCESS';
-export const LOGOUT_ERROR = '@@devMatchNative/LOGOUT_ERROR';
-export const REGISTER_PENDING = '@@devMatchNative/REGISTER_PENDING';
-export const REGISTER_SUCCESS = '@@devMatchNative/REGISTER_SUCCESS';
-export const REGISTER_ERROR = '@@devMatchNative/REGISTER_ERROR';
+export const USER_SESSION_SYNC = '@@devMatchNative/USER_SESSION_SYNC';
+export const LOGIN_PENDING = '@@reactTraining/LOGIN_PENDING';
+export const LOGIN_SUCCESS = '@@reactTraining/LOGIN_SUCCESS';
+export const LOGIN_ERROR = '@@reactTraining/LOGIN_ERROR';
+export const REGISTER_PENDING = '@@reactTraining/REGISTER_PENDING';
+export const REGISTER_SUCCESS = '@@reactTraining/REGISTER_SUCCESS';
+export const REGISTER_ERROR = '@@reactTraining/REGISTER_ERROR';
+export const LOGOUT = '@@reactTraining/LOGOUT';
 
-const initialState = fromJS({
-  displayName: null,
-  email: null,
-  hasError: false,
+const INITIAL_STATE = fromJS({
   pending: false,
-  sessionToken: null,
+  hasError: false,
+  code: null,
+  message: false,
+  authenticated: false,
   username: null,
+  id: null,
+  displayName: null,
 });
 
-function sessionReducer(state = initialState, action = {}) {
+function sessionReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case LOCALSTORAGE_SYNC:
-      return state.merge(action.payload.session);
+    case USER_SESSION_SYNC:
+      return state.merge(action.payload);
 
-    case LOGOUT_PENDING:
-    case REGISTER_PENDING:
     case LOGIN_PENDING:
       return state.set('pending', true)
                   .set('hasError', false);
 
-    case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       return state.merge(fromJS({
         pending: false,
+        authenticated: true,
         ...action.payload,
       }));
 
-    case REGISTER_ERROR:
     case LOGIN_ERROR:
       return state.merge(fromJS({
         pending: false,
         hasError: true,
+        authenticated: false,
         ...action.payload,
       }));
 
-    case LOGOUT_SUCCESS:
-    case LOGOUT_ERROR:
-      return initialState;
+    case LOGOUT:
+      return state.merge(fromJS({
+        pending: false,
+        hasError: false,
+        code: null,
+        message: false,
+        authenticated: false,
+        username: null,
+        id: null,
+        displayName: null,
+      }));
+
+    case REGISTER_PENDING:
+      return state.set('pending', true)
+                  .set('hasError', false);
+
+    case REGISTER_SUCCESS:
+      return state.merge(fromJS({
+        pending: false,
+        authenticated: true,
+        ...action.payload,
+      }));
+
+    case REGISTER_ERROR:
+      return state.merge(fromJS({
+        pending: false,
+        hasError: true,
+        authenticated: false,
+        ...action.payload,
+      }));
 
     default:
       return state;
   }
 }
 
-export function login() {
-  return (dispatch, getState) => {
-    const { username, password } = getState().form.login;
+export function login({ username, password }) {
+  return (dispatch) => {
+    dispatch({ type: LOGIN_PENDING });
 
-    return dispatch({
-      [REQUEST]: {
-        types: [
-          LOGIN_PENDING,
-          LOGIN_SUCCESS,
-          LOGIN_ERROR,
-        ],
-        payload: {
-          request: users.login(username.value, password.value),
-        },
-      }
-    });
+    return users.login(username, password)
+      .then(res => dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res,
+      }))
+      .then(null, err => dispatch({
+        type: LOGIN_ERROR,
+        payload: err,
+      }));
   };
 }
 
 export function logout() {
-  return {
-    [REQUEST]: {
-      types: [
-        LOGOUT_PENDING,
-        LOGOUT_SUCCESS,
-        LOGOUT_ERROR,
-      ],
-      payload: {
-        request: users.logout(),
-      },
-    }
+  return (dispatch) => {
+    return users.logout()
+      .then(dispatch({ type: LOGOUT }));
   };
 }
 
-export function register() {
-  return (dispatch, getState) => {
-    const { username, password, email, displayName } = getState().form.register;
+export function register({ username, password, email, displayName }) {
+  return (dispatch) => {
+    dispatch({ type: REGISTER_PENDING });
 
-    return dispatch({
-      [REQUEST]: {
-        types: [
-          REGISTER_PENDING,
-          REGISTER_SUCCESS,
-          REGISTER_ERROR,
-        ],
-        payload: {
-          request: users.register(username.value, password.value, email.value, displayName.value),
-        },
-      }
-    });
+    return users.create(username, password, email, displayName)
+      .then(res => dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res,
+      }))
+      .then(null, err => dispatch({
+        type: REGISTER_ERROR,
+        payload: err,
+      }));
   };
 }
 
