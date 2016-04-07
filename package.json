@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
     "immutable": "^3.7.6",
@@ -19,5 +20,16 @@
     "redux-form": "^4.2.0",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "chai": "^3.5.0",
+    "enzyme": "^2.2.0",
+    "mocha": "^2.4.5",
+    "react": "^0.14.8",
+    "react-addons-test-utils": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-native-mock": "0.0.7",
+    "sinon": "^1.17.3"
   }
 }

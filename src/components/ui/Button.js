@@ -30,7 +30,7 @@ const Button = ({ children, onPress, type, style }) => {
       </Text>
     </TouchableOpacity>
   );
-}
+};
 
 Button.defaultName = 'Button';
 Button.propTypes = {
