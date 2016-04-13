@@ -8,11 +8,12 @@
 ## 1.1 Getting Started
 You can find the most up to date information about how to get started [here](https://facebook.github.io/react-native/docs/getting-started.html#content).
 
-> Install the **React Native** CLI tools
+#### Install the **React Native** CLI tools:
 ```sh
 $ npm install -g react-native-cli
 ```
-*Initiate a **React Native** project:*
+
+#### Initiate a **React Native** project:
 ```sh
 $ react-native init HelloWorld
 ```
