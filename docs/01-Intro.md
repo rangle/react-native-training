@@ -76,15 +76,45 @@ Or, if you have *permission error* then use `sudo`:
 $ sudo npm install -g react-native-cli
 ```
 
+### Setup the environments
+For **iOS** install **Xcode** from the App Store.
+For **Android** follow these instructions [here](https://facebook.github.io/react-native/docs/android-setup.html).
+
 #### Initiate a **React Native** project:
 ```sh
 $ react-native init HelloWorld
 ```
 
-### Setup the environments
-For **iOS** install **Xcode** from the App Store.
+### Run your `HelloWorld` app
+After executing `react-native init HelloWorld` the output in the terminal is
+extremely useful and it explains how to run your project:
+```sh
+To run your app on iOS:
+   cd /Users/rangle/HelloWorld
+   react-native run-ios
+   - or -
+   Open /Users/rangle/HelloWorld/ios/HelloWorld.xcodeproj in Xcode
+   Hit the Run button
+To run your app on Android:
+   Have an Android emulator running (quickest way to get started), or a device connected
+   cd /Users/rangle/HelloWorld
+   react-native run-android
+```
 
-For **Android** follow these instructions [here](https://facebook.github.io/react-native/docs/android-setup.html).
+If running
+```sh
+$ react-native run-ios
+```
+throws the following error:
+```
+Command `run-ios` unrecognized. Did you mean to run this inside a react-native project?
+```
+then you might need to upgrade your `react-native` in the following way:
+```sh
+$ npm install --save react-native@latest
+```
+The result of running the `HelloWorld` app in the iOS simulator looks like this:
+![HelloWorld iOS Simulator](./images/HelloWorld-iOS_Sim.png)
 
 ## 1.2 Hello World
 - simple **Hello World** app
