@@ -399,18 +399,23 @@ render() {
 ...
 ```
 
-Now to access to open the **Chrome Dev Tool** you can do that by pressing
-`Command + Control + Z` in iOS simulator or the ![image](./images/Genymotion_RN_menu_button.png) button
+Now to open the **Chrome Dev Tool** you can do that by pressing the keys
+`Command + Control + Z` if using **iOS simulator** or clicking on the
+![image](./images/Genymotion_RN_menu_button.png) button
 from the **Genymotion Android** simulator.
 
 **iPhone simulator**
+
 ![iPhone simulator](./images/iOS_sim_dev_menu.png)
 
-
 **Android simulator**
+
 ![Android simulator](./images/Genymotion_RN_menu.png)
 
-From the menu choose the **Debugg in Crome** option, which will open Chrome
+From the menu choose the **Debug in Crome** option, which will open Chrome
 with a Dev Tools:
 
 ![Debugger](./images/chrome-devTool.png)
+
+This means that you can use Chrome debugger in the same way you do for debugging
+web applications.
