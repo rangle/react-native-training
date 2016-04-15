@@ -377,5 +377,40 @@ The output looks like this:
 ![image](./images/HelloWorld_Android.png)
 
 #### Debugging
-If using **Genymotion** simulator for **Android** you can use Chrome Dev Tool
-for debugging:
+For debugging will use Chrome Dev Tool.
+Let's add a `dubugger` in the `render()` method of our `Message` component:
+```JavaScript
+...
+render() {
+  const styles = StyleSheet.create({
+    message: {
+      textAlign: 'center',
+      marginBottom: 5,
+      color: this.props.color,
+    },
+  });
+  debugger;
+  return (
+    <Text style={ styles.message}>
+      { this.props.text }
+    </Text>
+  );
+}
+...
+```
+
+Now to access to open the **Chrome Dev Tool** you can do that by pressing
+`Command + Control + Z` in iOS simulator or the ![image](./images/Genymotion_RN_menu_button.png) button
+from the **Genymotion Android** simulator.
+
+**iPhone simulator**
+![iPhone simulator](./images/iOS_sim_dev_menu.png)
+
+
+**Android simulator**
+![Android simulator](./images/Genymotion_RN_menu.png)
+
+From the menu choose the **Debugg in Crome** option, which will open Chrome
+with a Dev Tools:
+
+![Debugger](./images/chrome-devTool.png)
