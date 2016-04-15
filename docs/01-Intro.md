@@ -1,8 +1,14 @@
 # 1.0 Introduction
+
+#### Who is this material for?
 This material is for those who are familiar with React and are willing to dive
 into developing mobile apps with **React Native**.
+For this course we assume that our audience also has solid knowledge of
+JavaScript and some familiarity with ES6 syntax and CSS.
+
+#### What is React Native?
 React Native is a **framework** for building **mobile** applications with
-**JavaScript** and **React** by leveraging **Native components**.
+**JavaScript** and **React** by leveraging **native components**.
 As we already know in React we have a virtual DOM which reflects the real DOM.
 Each React Element corresponds to a node in the Virtual DOM and when an element
 changes, that change is being reflected onto the real DOM. In React Native
@@ -18,16 +24,14 @@ differently on each platform.
 React Native embraces the **Learn Once And Apply Everywhere** paradigm, which is
 quite different from **Write Once Use Everywhere**. This is because there are
 some major differences between every mobile platform, and it is impossible
-to cover all of those differences with the same codebase.
+to cover all of those differences with the same codebase. With React Native we
+can use the same knowledge and tools to build separate apps for Android and iOS,
+and if we are pedantic enough we can reuse most of the code which deals with
+the business logic the apps.
 
-- how does it work?
-  - what are **Native Components**
+#### How does it work?
   - where is the JavaScript code executed
-
-#### Required Knowledge
-For this course we assume that our audience has at least some basic knowledge of
-React and JavaScript. Also, being familiar with ES6 syntax and basic CSS would
-definitely help with digesting this material.
+  - what is being compiled?
 
 ## 1.1 Getting Started
 You can find the most up to date information about how to get started
@@ -114,9 +118,161 @@ then you might need to upgrade your `react-native` in the following way:
 $ npm install --save react-native@latest
 ```
 The result of running the `HelloWorld` app in the iOS simulator looks like this:
-![HelloWorld iOS Simulator](./images/HelloWorld-iOS_Sim.png)
+
+![image](./images/HelloWorld-iOS_Sim.png)
 
 ## 1.2 Hello World
-- simple **Hello World** app
-  - provide sample code
-  - explain the `<View>` component from the sample code
+Open one of the two files: `index.android.js` or `index.ios.js` depending on
+which platform you want to run this `HelloWorld` app. This starter project was
+created as a result to running the `react-native init HelloWorld` command and
+let's look at the code that was generated:
+
+```JavaScript
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ */
+
+import React, {
+  AppRegistry,
+  Component,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+
+class HelloWorld extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.android.js
+        </Text>
+        <Text style={styles.instructions}>
+          Shake or press menu button for dev menu
+        </Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
+AppRegistry.registerComponent('HelloWorld', () => HelloWorld);
+```
+
+The very first thing that we have is importing the following objects from the
+`react-native` package:
+- React,
+- [AppRegistry](https://facebook.github.io/react-native/docs/appregistry.html),
+- Component,
+- StyleSheet,
+- Text,
+- View
+
+`React` is the library used for creating UI components. We needed to import it
+in every file where **JSX** is used for defining the UI components.
+`Component` is a class which we'll be extending to create our custom components.
+`AppRegistry` is the JS entry point to running all React Native apps.
+`StyleSheet` is an abstraction similar to CSS StyleSheets.
+`View` and `Text` are native components.
+
+```
+View
+The most fundamental component for building UI, View is a container that
+supports layout with flexbox, style, some touch handling, and accessibility
+controls, and is designed to be nested inside other views and to have 0 to many
+children of any type. View maps directly to the native view equivalent on
+whatever platform React is running on, whether that is a UIView, <div>,
+android.view, etc. This example creates a View that wraps two colored boxes and
+custom component in a row with padding.
+```
+
+Let's get into more details and try to understand the rest of this code.
+The following line is creating the `HelloWorld` component:
+```JavaScript
+class HelloWorld extends Component {
+...
+```
+
+Then inside the `render()` method we return the content of the `HelloWorld`
+component, which is three `<Text>` components wrapped in a `<View>` component.
+
+After that we have `styles` which is a `StyleSheet` reference from an
+object that is passed in the `create()` method.
+
+> static create(obj: {[key: string]: any})
+Creates a StyleSheet style reference from the given object.
+
+The last line is specifying which is the App (root) component and that is done
+by using `AppRegistry.registerComponent`:
+
+```JavaScript
+...
+AppRegistry.registerComponent('HelloWorld', () => HelloWorld);
+...
+```
+Since in this simple sample app we only have one component, `HelloWorld`, that
+is registered as the App component.
+
+Let's play with this file and change the text inside the main view:
+```JavaScript
+...
+class HelloWorld extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Hello World!
+        </Text>
+        <Text style={styles.message}>
+          Have a great day!
+        </Text>
+      </View>
+    );
+  }
+}
+...
+```
+
+```JavaScript
+...
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#333333',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  message: {
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 5,
+  },
+});
+```
