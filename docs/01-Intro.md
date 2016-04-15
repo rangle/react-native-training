@@ -413,7 +413,7 @@ from the **Genymotion Android** simulator.
 ![Android simulator](./images/Genymotion_RN_menu.png)
 
 From the menu choose the **Debug in Crome** option, which will open Chrome
-with a Dev Tools:
+with a Dev Tool:
 
 ![Debugger](./images/chrome-devTool.png)
 
