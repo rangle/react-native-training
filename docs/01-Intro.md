@@ -204,8 +204,13 @@ supports layout with flexbox, style, some touch handling, and accessibility
 controls, and is designed to be nested inside other views and to have 0 to many
 children of any type. View maps directly to the native view equivalent on
 whatever platform React is running on, whether that is a UIView, <div>,
-android.view, etc. This example creates a View that wraps two colored boxes and
-custom component in a row with padding.
+android.view, etc. ...
+```
+
+```
+Text
+A React component for displaying text which supports nesting, styling, and touch
+handling. ...
 ```
 
 Let's get into more details and try to understand the rest of this code.
@@ -215,25 +220,32 @@ class HelloWorld extends Component {
 ...
 ```
 
-Then inside the `render()` method we return the content of the `HelloWorld`
+Then inside the `render()` method it's return the content of the `HelloWorld`
 component, which is three `<Text>` components wrapped in a `<View>` component.
 
 After that we have `styles` which is a `StyleSheet` reference from an
 object that is passed in the `create()` method.
 
+```JavaScript
+...
+const styles = StyleSheet.create(styleObj);
+...
+```
+
 > static create(obj: {[key: string]: any})
-Creates a StyleSheet style reference from the given object.
+
+> Creates a StyleSheet style reference from the given object.
 
 The last line is specifying which is the App (root) component and that is done
-by using `AppRegistry.registerComponent`:
+by using the `AppRegistry.registerComponent` method:
 
 ```JavaScript
 ...
 AppRegistry.registerComponent('HelloWorld', () => HelloWorld);
 ...
 ```
-Since in this simple sample app we only have one component, `HelloWorld`, that
-is registered as the App component.
+Since in this simple sample app there's only the `HelloWorld` component, that
+is being used to register as the App component.
 
 Let's play with this file and change the text inside the main view:
 ```JavaScript
@@ -254,6 +266,11 @@ class HelloWorld extends Component {
 }
 ...
 ```
+We changed the code so that now we have 2 placeholders for the welcome text and
+a message text.
+
+Also let's change the background color of the container to `#333333` and the
+color of the message to white.
 
 ```JavaScript
 ...
@@ -276,3 +293,89 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
+Usually we would want to componentize our apps further by creating our custom
+components which properties can be controlled from its parent component.
+Let's go ahead and create a `Message` component which will be accepting 2
+properties: **1. the text content and** and **2. the color of the message**.
+
+Let's create a file `Message.js` and write the code for the `Message`
+component:
+
+**Message.js**
+```JavaScript
+import React, {
+  Component,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
+class Message extends Component {
+  static propTypes = {
+    message: React.PropTypes.string,
+    color: React.PropTypes.string,
+  };
+
+  render() {
+    const styles = StyleSheet.create({
+      message: {
+        textAlign: 'center',
+        marginBottom: 5,
+        color: this.props.color,
+      },
+    });
+
+    return (
+      <Text style={ styles.message}>
+        { this.props.text }
+      </Text>
+    );
+  }
+}
+
+export default Message;
+```
+
+Now we can use the `Message` component in our app:
+
+**index.android.js**
+```JavaScript
+import React, {
+  AppRegistry,
+  Component,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import Message from './Message.js';
+
+class HelloWorld extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Hello World!
+        </Text>
+        <Message
+          text={ 'Have a great day!' }
+          color={ 'yellow' }
+        />
+      </View>
+    );
+  }
+}
+...
+```
+
+Now let's run our modified app, make sure you are inside the `./HelloWorld`
+directory:
+```
+$ react-native run-android
+```
+The output looks like this:
+
+![image](./images/HelloWorld_Android.png)
+
+#### Debugging
+If using **Genymotion** simulator for **Android** you can use Chrome Dev Tool
+for debugging:
