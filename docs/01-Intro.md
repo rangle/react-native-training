@@ -30,7 +30,9 @@ and if we are pedantic enough we can reuse most of the code which deals with
 the business logic the apps.
 
 #### How does it work?
-  - where is the JavaScript code executed
+  - where is the JavaScript code executed?
+  -- in a JavaScript engine called JavaScriptCore
+  Native bridge, implemented in Objective-C/C++ in iOS and in Java on Android, 
   - what is being compiled?
 
 ## 1.1 Getting Started
@@ -376,8 +378,8 @@ The output looks like this:
 
 ![image](./images/HelloWorld_Android.png)
 
-#### Debugging
-For debugging will use Chrome Dev Tool.
+# 1.3 Debugging
+For debugging we will use Chrome Dev Tool.
 Let's add a `dubugger` in the `render()` method of our `Message` component:
 ```JavaScript
 ...
