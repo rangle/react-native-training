@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react-native": "^0.21.0",
+    "react-native": "^0.63.0",
     "react-native-swipe-cards": "0.0.7",
     "react-native-vector-icons": "^1.2.1",
     "react-redux": "^4.4.0",
